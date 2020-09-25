@@ -2,12 +2,15 @@ package com.geekbrains.geek.market.services;
 
 import com.geekbrains.geek.market.entities.Product;
 import com.geekbrains.geek.market.repositories.ProductRepository;
+import com.geekbrains.geek.market.repositories.specifications.ProductSpecifications;
+import com.geekbrains.geek.market.utils.ProductFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -15,22 +18,11 @@ import java.util.Optional;
 public class ProductService {
     private ProductRepository productRepository;
 
-    public Page<Product> findAll(int page, int size) {
-        return productRepository.findAll(PageRequest.of(page, size));
-    }
-
-    public List<Product> findByPriceIsGreaterThanEqual(int price) {
-        return productRepository.findAllByPriceIsGreaterThanEqual(price);
-    }
-    public List<Product> findByPriceIsLessThanEqual(int price) {
-        return productRepository.findAllByPriceIsLessThanEqual(price);
-    }
-    public List<Product> findByPriceIsGreaterThanAndPriceIsLessThan(int price_min, int price_max) {
-        return productRepository.findAllByPriceIsGreaterThanAndPriceIsLessThan(price_min, price_max);
+    public Page<Product> findAll(Specification<Product> spec, int page, int size) {
+        return productRepository.findAll(spec, PageRequest.of(page, size));
     }
 
     public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
     }
-
 }
