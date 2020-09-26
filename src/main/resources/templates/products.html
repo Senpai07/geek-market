@@ -46,6 +46,7 @@
             <th>ID</th>
             <th>Название</th>
             <th>Цена</th>
+            <th>Операция</th>
         </tr>
         </thead>
         <tbody>
@@ -53,6 +54,9 @@
             <td th:text="${p.id}"/>
             <td th:text="${p.title}"/>
             <td th:text="${p.price}"/>
+            <td><a class="btn btn-outline-primary btn-sm"
+                   th:href="@{'/products/edit?id='+${p.id}}">Редактировать</a>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -65,9 +69,15 @@
             </li>
 
             <li class="page-item" th:classappend="${products.getNumber() + 1 == i ? 'active' : ''}"
-                th:each="i : ${#numbers.sequence(1, products.getTotalPages())}">
+                th:each="i : ${#numbers.sequence((products.number - 1 > 0 ? products.number - 1 : 1),
+                (products.number + 3 < products.totalPages ? products.number + 3 : products.totalPages), 1)}">
                 <a class="page-link" th:text="${i}" th:href="@{'/products?p=' + ${i} + ${filterDefinition}}"></a>
             </li>
+
+            <!--            <li class="page-item" th:classappend="${products.getNumber() + 1 == i ? 'active' : ''}"-->
+            <!--                th:each="i : ${#numbers.sequence(1, products.getTotalPages())}">-->
+            <!--                <a class="page-link" th:text="${i}" th:href="@{'/products?p=' + ${i} + ${filterDefinition}}"></a>-->
+            <!--            </li>-->
 
             <li class="page-item" th:classappend="${products.isLast() ? 'disabled' : ''}">
                 <a class="page-link"
