@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Продукт</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Продукт</h1>
+
+    <h3 th:text="${'Редактирование продукта ' + product.get().getTitle()}"/>
+
+    <form method="get" th:action="@{/products/save}">
+        <div class="form-group col-md-6">
+            <label for="idInput">ID</label>
+            <input readonly class="form-control-plaintext" th:value="${param.id != null ? param.id : null}" name="id"
+                   type="number" id="idInput">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="titleInput">Название</label>
+            <input class="form-control" th:value="${product.get().getTitle() != null ? product.get().getTitle() : null}" name="title" type="text"
+                   id="titleInput">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="PriceInput">Минимальная цена</label>
+            <input class="form-control" th:value="${product.get().getPrice() != null ? product.get().getPrice() : null}" name="price"
+                   type="number" id="PriceInput">
+        </div>
+
+        <button class="btn btn-outline-success" type="submit">Сохранить</button>
+        <a class="btn btn-outline-primary" th:href="@{/products}">Отменить</a>
+    </form>
+
+</div>
+
+</body>
+</html>
