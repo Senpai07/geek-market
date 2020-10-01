@@ -1,18 +1,16 @@
 package com.geekbrains.geek.market.controllers;
 
 import com.geekbrains.geek.market.entities.Product;
+import com.geekbrains.geek.market.exceptions.ResourceNotFoundException;
 import com.geekbrains.geek.market.services.ProductService;
 import com.geekbrains.geek.market.utils.ProductFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/products")
@@ -31,11 +29,18 @@ public class ProductController {
         return "products";
     }
 
-    @GetMapping("/edit")
-    public String editProducts(Model model, @RequestParam Long id) {
-        Optional<Product> product = productService.findById(id);
+    @GetMapping("/edit/{id}")
+    public String showEditForm(Model model, @PathVariable Long id) {
+        Product product = productService.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Product with id=" + id + " doesn't exists (edit)"));
         model.addAttribute("product", product);
         return "edit_product";
+    }
+
+    @PostMapping("/edit")
+    public String saveProduct(@ModelAttribute Product product) {
+        productService.SaveOrUpdate(product);
+        return "redirect:/products";
     }
 
     @GetMapping("/save")

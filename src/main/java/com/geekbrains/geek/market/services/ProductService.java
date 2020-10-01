@@ -26,4 +26,8 @@ public class ProductService {
     public void saveProduct(Product product) {
         productRepository.save(product);
     }
+
+    public Product SaveOrUpdate(Product product) {
+        return productRepository.save(product);
+    }
 }

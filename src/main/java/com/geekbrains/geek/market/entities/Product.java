@@ -23,7 +23,4 @@ public class Product {
     @Column(name = "price")
     private int price;
 
-    @OneToMany(mappedBy = "product")
-    private List<Order> orders;
-
 }
