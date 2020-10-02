@@ -30,6 +30,6 @@ public class OrderController {
         order.setItems(cart.getItems());
         orderService.addOrSaveOrder(order);
         cart.clearCart();
-        return "redirect:/orders";
+        return "redirect:/cart";
     }
 }
