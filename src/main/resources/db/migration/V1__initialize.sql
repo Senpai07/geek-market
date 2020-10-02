@@ -18,8 +18,8 @@ create table orders
     customer_id bigint references customers (id),
     price       int,
     name        varchar(255),
-    Address     varchar(255),
-    Phone       varchar(50)
+    address     varchar(255),
+    phone       varchar(50)
 );
 
 create table order_items
