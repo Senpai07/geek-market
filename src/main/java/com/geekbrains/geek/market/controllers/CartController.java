@@ -6,7 +6,6 @@ import com.geekbrains.geek.market.services.ProductService;
 import com.geekbrains.geek.market.utils.Cart;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,11 +29,29 @@ public class CartController {
 
     @GetMapping("/add/{product_id}")
     public void addToCart(@PathVariable(name = "product_id") Long productId,
-                            HttpServletRequest request, HttpServletResponse response) throws IOException {
+                          HttpServletRequest request, HttpServletResponse response) throws IOException {
         Product product = productService.findById(productId).orElseThrow(() ->
                 new ResourceNotFoundException("Product with id=" + productId + " doesn't exists (cart)"));
-        cart.add(product);
+        cart.addOrIncrement(product);
         response.sendRedirect(request.getHeader("referer"));
+    }
+
+    @GetMapping("/inc/{product_id}")
+    public String addOrIncrementProduct(@PathVariable(name = "product_id") Long productId) {
+        cart.incrementOnly(productId);
+        return "redirect:/cart";
+    }
+
+    @GetMapping("/dec/{product_id}")
+    public String decrementOrRemoveProduct(@PathVariable(name = "product_id") Long productId) {
+        cart.decrementOrRemove(productId);
+        return "redirect:/cart";
+    }
+
+    @GetMapping("/remove/{product_id}")
+    public String removeProduct(@PathVariable(name = "product_id") Long productId) {
+        cart.remove(productId);
+        return "redirect:/cart";
     }
 }
 

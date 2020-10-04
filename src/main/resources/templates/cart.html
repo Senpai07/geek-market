@@ -14,7 +14,7 @@
 <body>
 
 <div class="container">
-    <div th:replace="~{navigation :: navigation(Cart)}" />
+    <div th:replace="~{navigation :: navigation(Cart)}"/>
     <h1>Корзина</h1>
 
     <br>
@@ -45,6 +45,27 @@
         </tr>
         </tbody>
     </table>
+    <br>
+    <div class="col-md-6" th:if="${!@cart.items.isEmpty()}">
+        <h3>Оформить заказ</h3>
+        <form method="POST" th:action="@{/orders/save}">
+            <div class="form-group col-md-6">
+                <label for="nameInput">Имя</label>
+                <input class="form-control" name="name" type="text" id="nameInput" placeholder="Имя">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="addressInput">Адрес</label>
+                <input class="form-control" name="address" type="text" id="addressInput" placeholder="Адрес доставки">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="phoneInput">Телефон</label>
+                <input class="form-control" name="phone" type="text" id="phoneInput" placeholder="Номер телефона">
+            </div>
+
+            <button class="btn btn-outline-success" type="submit">Оформить</button>
+        </form>
+    </div>
+
 </div>
 
 </body>

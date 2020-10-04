@@ -1,9 +1,9 @@
 package com.geekbrains.geek.market.utils;
 
+import com.geekbrains.geek.market.entities.OrderItem;
 import com.geekbrains.geek.market.entities.Product;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.loader.WebappClassLoader;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -11,6 +11,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Component
@@ -18,15 +19,72 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class Cart {
-    private List<Product> container;
+    private List<OrderItem> items;
+    private int price;
 
     @PostConstruct
     public void init() {
-        container = new ArrayList<>();
+        items = new ArrayList<>();
     }
 
-    public void add(Product product) {
-        container.add(product);
+    public void addOrIncrement(Product product) {
+        for (OrderItem o : items) {
+            if (o.getProduct().getId().equals(product.getId())) {
+                o.incrementQuantity();
+                recalculate();
+                return;
+            }
+        }
+        items.add(new OrderItem(product));
+        recalculate();
     }
 
+    public void incrementOnly(Long productId) {
+        for (OrderItem o : items) {
+            if (o.getProduct().getId().equals(productId)) {
+                o.incrementQuantity();
+                recalculate();
+                return;
+            }
+        }
+    }
+
+    public void decrementOrRemove(Long productId) {
+        Iterator<OrderItem> iter = items.iterator();
+        while (iter.hasNext()) {
+            OrderItem o = iter.next();
+            if (o.getProduct().getId().equals(productId)) {
+                o.decrementQuantity();
+                if (o.getQuantity() == 0) {
+                    iter.remove();
+                }
+                recalculate();
+                return;
+            }
+        }
+    }
+
+    public void remove(Long productId) {
+        Iterator<OrderItem> iter = items.iterator();
+        while (iter.hasNext()) {
+            OrderItem o = iter.next();
+            if (o.getProduct().getId().equals(productId)) {
+                iter.remove();
+                recalculate();
+                return;
+            }
+        }
+    }
+
+    public void recalculate() {
+        price = 0;
+        for (OrderItem o : items) {
+            price += o.getPrice();
+        }
+    }
+
+    public void clearCart() {
+        items.clear();
+        recalculate();
+    }
 }
