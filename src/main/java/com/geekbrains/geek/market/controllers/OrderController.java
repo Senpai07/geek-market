@@ -1,11 +1,14 @@
 package com.geekbrains.geek.market.controllers;
 
 import com.geekbrains.geek.market.entities.Order;
+import com.geekbrains.geek.market.entities.Product;
 import com.geekbrains.geek.market.entities.User;
+import com.geekbrains.geek.market.repositories.specifications.ProductSpecifications;
 import com.geekbrains.geek.market.services.OrderService;
 import com.geekbrains.geek.market.services.UserService;
 import com.geekbrains.geek.market.utils.Cart;
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +24,12 @@ public class OrderController {
     private Cart cart;
 
     @GetMapping
-    public String showOrders(Model model) {
-        model.addAttribute("orders", orderService.findAll());
+    public String showOrders(Model model, Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+        Specification<Order> spec = Specification.where(null);
+        spec = spec.and((Specification<Order>) (root, criteriaQuery, criteriaBuilder) ->
+                criteriaBuilder.greaterThanOrEqualTo(root.get("user"), user.getId()));
+        model.addAttribute("orders", orderService.findAll(spec));
         return "orders";
     }
 
