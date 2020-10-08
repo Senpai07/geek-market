@@ -83,8 +83,9 @@ public class Cart {
         }
     }
 
-    public void clearCart() {
+    public void clear() {
         items.clear();
         recalculate();
     }
+
 }

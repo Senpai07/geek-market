@@ -1,17 +1,13 @@
 package com.geekbrains.geek.market.entities;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "customers")
 @Data
-@NoArgsConstructor
-public class Customer {
-
+@Table(name = "roles")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -19,8 +15,4 @@ public class Customer {
 
     @Column(name = "name")
     private String name;
-
-    @OneToMany(mappedBy = "customer")
-    private List<Order> orders;
-
 }
