@@ -23,8 +23,8 @@
     <h3>Регистрация</h3>
     <form method="POST" th:action="@{/registration/confirm}">
         <div class="form-group col-md-6">
-            <label for="nameInput">Логин</label>
-            <input required class="form-control" name="login" type="text" id="nameInput"
+            <label for="usernameInput">Логин</label>
+            <input required class="form-control" name="username" type="text" id="usernameInput"
                    placeholder="Введите имя пользователя">
         </div>
         <div class="form-group col-md-6">
@@ -32,11 +32,11 @@
             <input required class="form-control" name="password" type="password" id="passwordInput"
                    placeholder="Введите пароль">
         </div>
-        <div class="form-group col-md-6">
-            <label for="passwordRepeatInput">Повтор пароля</label>
-            <input required class="form-control" name="password_repeat" type="password" id="passwordRepeatInput"
-                   placeholder="Повторите пароль">
-        </div>
+<!--        <div class="form-group col-md-6">-->
+<!--            <label for="passwordRepeatInput">Повтор пароля</label>-->
+<!--            <input required class="form-control" name="password_repeat" type="password" id="passwordRepeatInput"-->
+<!--                   placeholder="Повторите пароль">-->
+<!--        </div>-->
         <div class="form-group col-md-6">
             <label for="emailInput">Электронная почта</label>
             <input required class="form-control" name="email" type="email" id="emailInput"
