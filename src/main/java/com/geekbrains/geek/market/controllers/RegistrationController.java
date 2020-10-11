@@ -17,7 +17,6 @@ import java.util.Collection;
 @RequestMapping("/registration")
 @AllArgsConstructor
 public class RegistrationController {
-
     private UserService userService;
 
     @GetMapping
@@ -27,8 +26,8 @@ public class RegistrationController {
 
     @PostMapping("/confirm")
     public String saveProduct(@ModelAttribute User user) {
-        Collection<Role> list = new ArrayList<Role>();
-        list.add(new Role(1l, "ROLE_USER"));
+        Collection<Role> list = new ArrayList<>();
+        list.add(new Role(1L, "ROLE_USER"));
         user.setRoles(list);
         userService.saveUser(user);
         return "redirect:/products";
