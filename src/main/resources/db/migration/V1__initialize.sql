@@ -36,20 +36,27 @@ insert into users_roles (user_id, role_id)
 values (1, 1),
        (1, 2);
 
-create table products
+create table categories
 (
     id    bigserial primary key,
-    title varchar(255),
-    price int
+    title varchar(255)
+);
+
+create table products
+(
+    id          bigserial primary key,
+    title       varchar(255),
+    price       int,
+    category_id bigint references categories (id)
 );
 
 create table orders
 (
-    id      bigserial primary key,
-    user_id bigint references users (id),
-    price   int,
-    address varchar(255),
-    phone   varchar(50),
+    id            bigserial primary key,
+    user_id       bigint references users (id),
+    price         int,
+    address       varchar(255),
+    phone         varchar(50),
     receiver_name varchar(255)
 );
 
