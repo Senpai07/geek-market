@@ -2,8 +2,9 @@ package com.geekbrains.geek.market.utils;
 
 import com.geekbrains.geek.market.entities.OrderItem;
 import com.geekbrains.geek.market.entities.Product;
+import com.geekbrains.geek.market.exceptions.ResourceNotFoundException;
+import com.geekbrains.geek.market.services.ProductService;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -16,9 +17,9 @@ import java.util.List;
 
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
-@NoArgsConstructor
 @Data
 public class Cart {
+    private final ProductService productService;
     private List<OrderItem> items;
     private int price;
 
@@ -27,19 +28,7 @@ public class Cart {
         items = new ArrayList<>();
     }
 
-    public void addOrIncrement(Product product) {
-        for (OrderItem o : items) {
-            if (o.getProduct().getId().equals(product.getId())) {
-                o.incrementQuantity();
-                recalculate();
-                return;
-            }
-        }
-        items.add(new OrderItem(product));
-        recalculate();
-    }
-
-    public void incrementOnly(Long productId) {
+    public void addOrIncrement(Long productId) {
         for (OrderItem o : items) {
             if (o.getProduct().getId().equals(productId)) {
                 o.incrementQuantity();
@@ -47,6 +36,10 @@ public class Cart {
                 return;
             }
         }
+        Product product = productService.findById(productId).orElseThrow(() ->
+                new ResourceNotFoundException("Product with id=" + productId + " doesn't exists (cart)"));
+        items.add(new OrderItem(product));
+        recalculate();
     }
 
     public void decrementOrRemove(Long productId) {
@@ -79,6 +72,8 @@ public class Cart {
     public void recalculate() {
         price = 0;
         for (OrderItem o : items) {
+            o.setPricePerProduct(o.getProduct().getPrice());
+            o.setPrice(o.getProduct().getPrice() * o.getQuantity());
             price += o.getPrice();
         }
     }
