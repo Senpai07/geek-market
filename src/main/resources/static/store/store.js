@@ -10,11 +10,30 @@ angular.module('app').controller('storeController', function ($scope, $http) {
                 title: $scope.filterProduct ? $scope.filterProduct.title : null,
                 min_price: $scope.filterProduct ? $scope.filterProduct.min_price : null,
                 max_price: $scope.filterProduct ? $scope.filterProduct.max_price : null,
+                category: $scope.filterProduct ? $scope.filterProduct.category : null,
                 p: pageIndex
             }
         }).then(function (response) {
             $scope.ProductsPage = response.data;
             $scope.PaginationArray = $scope.generatePagesList(1, $scope.ProductsPage.totalPages);
+        });
+    };
+
+
+    $scope.getCategories = function () {
+        $http.get(contextPath + '/api/v1/categories')
+            .then(function (response) {
+                console.log(response.data);
+                $scope.Categories = response.data;
+            });
+    };
+
+    $scope.addToCart = function (productId) {
+        $http({
+            url: contextPath + '/api/v1/cart/add/' + productId,
+            method: "GET"
+        }).then(function (response) {
+            console.log('ok');
         });
     };
 
@@ -25,14 +44,6 @@ angular.module('app').controller('storeController', function ($scope, $http) {
         }
         return arr;
     }
-
-    // $scope.fillTable = function () {
-    //     console.log('fill');
-    //     $http.get(contextPath + '/api/v1/products')
-    //         .then(function (response) {
-    //             $scope.Products = response.data;
-    //         });
-    // };
 
     $scope.clearFilter = function () {
         currentPage = 1;
@@ -58,16 +69,6 @@ angular.module('app').controller('storeController', function ($scope, $http) {
     //         $scope.fillTable();
     //     }
     // }
-
-    $scope.submitCreateNewProduct = function () {
-        $http.post(contextPath + '/api/v1/products', $scope.newProduct)
-            .then(function (response) {
-                // $scope.Products.push(response.data);
-                $scope.newProduct = null;
-                $scope.fillTable();
-            });
-    };
-
     // $scope.previous = function () {
     //     if (currentPage > 1) {
     //         currentPage--;
@@ -126,4 +127,5 @@ angular.module('app').controller('storeController', function ($scope, $http) {
     // }
 
     $scope.fillTable();
+    $scope.getCategories();
 });

@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Controller
-@RequestMapping("/cart")
-@AllArgsConstructor
+//@Controller
+//@RequestMapping("/cart")
+//@AllArgsConstructor
 public class CartController {
     private ProductService productService;
 
@@ -32,13 +32,13 @@ public class CartController {
                           HttpServletRequest request, HttpServletResponse response) throws IOException {
         Product product = productService.findById(productId).orElseThrow(() ->
                 new ResourceNotFoundException("Product with id=" + productId + " doesn't exists (cart)"));
-        cart.addOrIncrement(product);
+        cart.addOrIncrement(productId);
         response.sendRedirect(request.getHeader("referer"));
     }
 
     @GetMapping("/inc/{product_id}")
     public String addOrIncrementProduct(@PathVariable(name = "product_id") Long productId) {
-        cart.incrementOnly(productId);
+        cart.addOrIncrement(productId);
         return "redirect:/cart";
     }
 

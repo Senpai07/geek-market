@@ -17,26 +17,26 @@ import java.util.Map;
 public class RestProductController {
     private ProductService productService;
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public Page<Product> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page, @RequestParam Map<String, String> params) {
         ProductFilter productFilter = new ProductFilter(params);
         if (page < 1) page = 1;
         return productService.findAll(productFilter.getSpec(), page - 1, 5);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = "application/json")
     public Product getProductById(@PathVariable Long id) {
         return productService.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Product with id=" + id + " doesn't exists"));
     }
 
-    @PostMapping
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public Product createProduct(@RequestBody Product product) {
         product.setId(null);
         return productService.SaveOrUpdate(product);
     }
 
-    @PutMapping
+    @PutMapping(consumes = "application/json", produces = "application/json")
     public Product updateProduct(@RequestBody Product product) {
         return productService.SaveOrUpdate(product);
     }
