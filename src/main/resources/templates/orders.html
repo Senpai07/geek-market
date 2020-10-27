@@ -15,7 +15,7 @@
 
 <div class="container">
     <div th:replace="~{navigation :: navigation(Orders)}" />
-    <h1>Каталог товаров</h1>
+    <h1>Список заказов</h1>
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
@@ -28,7 +28,7 @@
         <tbody>
         <tr th:each="o : ${orders}">
             <td th:text="${o.id}"/>
-            <td th:text="${o.name}"/>
+            <td th:text="${o.receiverName}"/>
             <td th:text="${o.address}"/>
             <td th:text="${o.phone}"/>
         </tr>
