@@ -3,8 +3,7 @@ package com.geekbrains.geek.market.services;
 import com.geekbrains.geek.market.entities.Role;
 import com.geekbrains.geek.market.entities.User;
 import com.geekbrains.geek.market.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,13 +16,9 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
-    private UserRepository userRepository;
-
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserRepository userRepository;
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);

@@ -1,56 +1,58 @@
 package com.geekbrains.geek.market.controllers;
 
+import com.geekbrains.geek.market.dto.ProductDto;
 import com.geekbrains.geek.market.entities.Product;
 import com.geekbrains.geek.market.exceptions.ResourceNotFoundException;
 import com.geekbrains.geek.market.services.ProductService;
 import com.geekbrains.geek.market.utils.ProductFilter;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
-@Controller
-@RequestMapping("/products")
-@AllArgsConstructor
+@RestController
+@RequestMapping("/api/v1/products")
+@RequiredArgsConstructor
 public class ProductController {
-    private ProductService productService;
+    private final ProductService productService;
 
-    @GetMapping
-    public String showAllProducts(Model model, @RequestParam(defaultValue = "1", name = "p") Integer page,
-                                  @RequestParam Map<String, String> params) {
-        if (page < 1) page = 1;
+    @GetMapping(produces = "application/json")
+    public Page<ProductDto> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page, @RequestParam Map<String, String> params) {
         ProductFilter productFilter = new ProductFilter(params);
-        Page<Product> products = productService.findAll(productFilter.getSpec(), page - 1, 5);
-        model.addAttribute("products", products);
-        model.addAttribute("filterDefinition", productFilter.getFilterDefinition());
-        return "products";
+        if (page < 1) page = 1;
+        Page<Product> productsPage = productService.findAll(productFilter.getSpec(), page - 1, 5);
+        return new PageImpl<>(productsPage.getContent().stream().map(ProductDto::new)
+                .collect(Collectors.toList()), productsPage.getPageable(), productsPage.getTotalElements());
     }
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(Model model, @PathVariable Long id) {
-        Product product = productService.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("Product with id=" + id + " doesn't exists (edit)"));
-        model.addAttribute("product", product);
-        return "edit_product";
+    @GetMapping(value = "/{id}", produces = "application/json")
+    public Product getProductById(@PathVariable Long id) {
+        return productService.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Product with id=" + id + " doesn't exists"));
     }
 
-    @PostMapping("/edit")
-    public String saveProduct(@ModelAttribute Product product) {
-        productService.SaveOrUpdate(product);
-        return "redirect:/products";
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public Product createProduct(@RequestBody Product product) {
+        product.setId(null);
+        return productService.SaveOrUpdate(product);
     }
 
-    @GetMapping("/save")
-    public String saveProducts(Model model, @RequestParam Long id, @RequestParam String title, @RequestParam int price) {
-        Product product = new Product();
-        product.setId(id);
-        product.setTitle(title);
-        product.setPrice(price);
-        productService.saveProduct(product);
-        return "redirect:/products";
+    @PutMapping(consumes = "application/json", produces = "application/json")
+    public Product updateProduct(@RequestBody Product product) {
+        return productService.SaveOrUpdate(product);
+    }
+
+    @DeleteMapping
+    public void delProduct() {
+        productService.deleteAll();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id) {
+        productService.deleteById(id);
     }
 
 }

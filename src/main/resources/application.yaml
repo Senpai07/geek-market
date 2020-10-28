@@ -13,3 +13,5 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL94Dialect
+jwt:
+  secret: urio3748rt87foiweufrwlqgfo34tr7tr874trgfg878453345yrfgshygskjar7striq3g4fkgire

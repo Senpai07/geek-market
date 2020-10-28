@@ -2,7 +2,7 @@ package com.geekbrains.geek.market.services;
 
 import com.geekbrains.geek.market.entities.Product;
 import com.geekbrains.geek.market.repositories.ProductRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProductService {
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     public Page<Product> findAll(Specification<Product> spec, int page, int size) {
         return productRepository.findAll(spec, PageRequest.of(page, size));

@@ -10,6 +10,7 @@ public class OrderItemDto {
 
     private Long productId;
     private String productTitle;
+    private String categoryTitle;
     private int quantity;
     private int pricePerProduct;
     private int price;
@@ -17,6 +18,7 @@ public class OrderItemDto {
     public OrderItemDto(OrderItem orderItem) {
         this.productId = orderItem.getProduct().getId();
         this.productTitle = orderItem.getProduct().getTitle();
+        this.categoryTitle = orderItem.getProduct().getCategory().getTitle();
         this.quantity = orderItem.getQuantity();
         this.price = orderItem.getPrice();
         this.pricePerProduct = orderItem.getPricePerProduct();

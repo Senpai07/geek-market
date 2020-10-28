@@ -1,18 +1,17 @@
 package com.geekbrains.geek.market.services;
 
 import com.geekbrains.geek.market.entities.Order;
-import com.geekbrains.geek.market.entities.Product;
 import com.geekbrains.geek.market.repositories.OrderRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderService {
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
     public List<Order> findAll(Specification<Order> spec) {
         return orderRepository.findAll(spec);

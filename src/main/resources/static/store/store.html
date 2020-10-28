@@ -17,6 +17,7 @@
         <div class="form-group col-md-6">
             <label for="productCategory">Категория</label>
             <select class="form-control" ng-model="filterProduct.category" id = "productCategory">
+                <option></option>
                 <option ng-repeat="category in Categories" value="{{category.id}}">{{category.title}}</option>
             </select>
         </div>
@@ -31,6 +32,7 @@
     <table class="table table-hover" cellpadding="0" cellspacing="0">
         <tr>
             <td>Название</td>
+            <td>Категория</td>
             <td>Цена</td>
             <td></td>
         </tr>
@@ -38,6 +40,7 @@
 
         <tr ng-repeat="p in ProductsPage.content">
             <td>{{p.title}}</td>
+            <td>{{p.categoryTitle}}</td>
             <td>{{p.price}}</td>
             <td>
                 <button class="btn btn-outline-success btn-sm" ng-click="addToCart(p.id)">Добавить в корзину</button>
