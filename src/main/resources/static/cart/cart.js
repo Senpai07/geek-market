@@ -37,5 +37,21 @@ angular.module('app').controller('cartController', function ($scope, $http) {
         });
     };
 
+    $scope.createOrder = function ($localStorage) {
+        $http({
+            url: contextPath + '/api/v1/orders/confirm',
+            method: "POST",
+            params: {
+                userName: $localStorage.currentUser ? $localStorage.currentUser.username : null,
+                receiverName: $scope.order ? $scope.order.receiverName : null,
+                phone: $scope.order ? $scope.order.phone : null,
+                address: $scope.order ? $scope.order.address : null
+            }
+        }).then(function (response) {
+            $scope.order = response.data;
+        });
+    };
+
+
     $scope.cartContentRequest();
 });

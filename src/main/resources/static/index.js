@@ -23,6 +23,10 @@
                 templateUrl: 'admin/admin.html',
                 controller: 'adminController'
             })
+            .when('/orders', {
+                templateUrl: 'order/order.html',
+                controller: 'orderController'
+            })
             .when('/cart', {
                 templateUrl: 'cart/cart.html',
                 controller: 'cartController'

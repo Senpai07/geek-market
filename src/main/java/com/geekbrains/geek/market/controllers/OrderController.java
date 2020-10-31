@@ -1,53 +1,44 @@
 package com.geekbrains.geek.market.controllers;
 
+import com.geekbrains.geek.market.dto.OrderDto;
 import com.geekbrains.geek.market.entities.Order;
-import com.geekbrains.geek.market.entities.Product;
 import com.geekbrains.geek.market.entities.User;
-import com.geekbrains.geek.market.repositories.specifications.ProductSpecifications;
 import com.geekbrains.geek.market.services.OrderService;
 import com.geekbrains.geek.market.services.UserService;
 import com.geekbrains.geek.market.utils.Cart;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Controller
-@RequestMapping("/orders")
-@AllArgsConstructor
+@RestController
+@RequestMapping("/api/v1/orders")
+@RequiredArgsConstructor
 public class OrderController {
-    private UserService userService;
-    private OrderService orderService;
-    private Cart cart;
+    private final UserService userService;
+    private final OrderService orderService;
+    private final Cart cart;
 
-    @GetMapping
-    public String showOrders(Model model, Principal principal) {
-        User user = userService.findByUsername(principal.getName());
+    @GetMapping(produces = "application/json")
+    public List<OrderDto> getOrderList(@RequestParam(name = "userName") String userName) {
+        User user = userService.findByUsername(userName);
         Specification<Order> spec = Specification.where(null);
         spec = spec.and((Specification<Order>) (root, criteriaQuery, criteriaBuilder) ->
                 criteriaBuilder.greaterThanOrEqualTo(root.get("user"), user.getId()));
-        model.addAttribute("orders", orderService.findAll(spec));
-        return "orders";
-    }
-
-    @GetMapping("/create")
-    public String showOrderPage(Principal principal, Model model) {
-        model.addAttribute("username", principal.getName());
-        return "create_order";
+        List<Order> orderList = orderService.findAll(spec);
+        return orderList.stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
     @PostMapping("/confirm")
-    @ResponseBody
-    public String confirmOrder(Principal principal, @RequestParam(name = "address") String address,
-                              @RequestParam(name = "receiver_name") String receiverName,
-                              @RequestParam(name = "phone") String phone
-                              ) {
-        User user = userService.findByUsername(principal.getName());
+    public OrderDto confirmOrder(@RequestParam(name = "userName") String userName,
+                                 @RequestParam(name = "address") String address,
+                                 @RequestParam(name = "receiverName") String receiverName,
+                                 @RequestParam(name = "phone") String phone) {
+        User user = userService.findByUsername(userName);
         Order order = new Order(user, cart, address, phone, receiverName);
         order = orderService.save(order);
-        return "Ваш заказ №"+ order.getId();
+        return new OrderDto(order);
     }
 }
