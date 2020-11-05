@@ -30,6 +30,10 @@
             .when('/cart', {
                 templateUrl: 'cart/cart.html',
                 controller: 'cartController'
+            })
+            .when('/user', {
+                templateUrl: 'user/user.html',
+                controller: 'userController'
             });
 
         $httpProvider.interceptors.push(function ($q, $location) {
