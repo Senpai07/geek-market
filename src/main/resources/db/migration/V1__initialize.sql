@@ -23,14 +23,14 @@ CREATE TABLE users_roles
     foreign key (role_id) references roles (id)
 );
 
-create table profile
+create table profiles
 (
     id         bigint      not null,
     firstname  varchar(30) not null,
     surname    varchar(50) not null,
     phone      varchar(50) not null,
     email      varchar(50) unique,
-    birth_year varchar(4),
+    birth_year numeric(4),
     gender     varchar(1),
     city       varchar(50),
     primary key (id),
@@ -49,15 +49,15 @@ insert into users_roles (user_id, role_id)
 values (1, 1),
        (1, 2);
 
-insert into profile (id,
-                     firstname,
-                     surname,
-                     phone,
-                     email,
-                     birth_year,
-                     gender,
-                     city)
-values (1, 'Bob', 'Johnson', '34574563432', 'bob@gmail.com', '1991', 'm', 'Chicago');
+insert into profiles (id,
+                      firstname,
+                      surname,
+                      phone,
+                      email,
+                      birth_year,
+                      gender,
+                      city)
+values (1, 'Bob', 'Johnson', '34574563432', 'bob@gmail.com', 1991, 'm', 'Chicago');
 
 create table categories
 (
