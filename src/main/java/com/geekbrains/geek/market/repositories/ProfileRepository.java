@@ -1,5 +1,6 @@
 package com.geekbrains.geek.market.repositories;
 
+import com.geekbrains.geek.market.entities.User;
 import com.geekbrains.geek.market.entities.UserProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

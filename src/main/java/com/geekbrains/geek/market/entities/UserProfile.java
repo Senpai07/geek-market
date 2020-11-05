@@ -37,4 +37,15 @@ public class UserProfile {
 
     @Column(name = "city")
     private String city;
+
+    public UserProfile(Long id, String firstname, String surname, String phone, String email, Integer birthYear, String gender, String city) {
+        this.id = id;
+        this.firstname = firstname;
+        this.surname = surname;
+        this.phone = phone;
+        this.email = email;
+        this.birthYear = birthYear;
+        this.gender = gender;
+        this.city = city;
+    }
 }
