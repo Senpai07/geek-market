@@ -5,7 +5,7 @@ angular.module('app').controller('storeController', function ($scope, $http) {
     $scope.fillTable = function (pageIndex = 1) {
         $http({
             url: contextPath + '/api/v1/products',
-            method: "GET",
+            method: 'GET',
             params: {
                 title: $scope.filterProduct ? $scope.filterProduct.title : null,
                 min_price: $scope.filterProduct ? $scope.filterProduct.min_price : null,
@@ -31,7 +31,7 @@ angular.module('app').controller('storeController', function ($scope, $http) {
     $scope.addToCart = function (productId) {
         $http({
             url: contextPath + '/api/v1/cart/add/' + productId,
-            method: "GET"
+            method: 'GET'
         }).then(function (response) {
             console.log('ok');
         });

@@ -5,10 +5,7 @@ angular.module('app').controller('orderController', function ($scope, $http) {
     $scope.fillTable = function ($localStorage) {
         $http({
             url: contextPath + '/api/v1/orders',
-            method: "GET",
-            params: {
-                userName: $localStorage.currentUser ? $localStorage.currentUser.username : null
-            }
+            method: 'GET'
         }).then(function (response) {
             $scope.orderList = response.data;
         });

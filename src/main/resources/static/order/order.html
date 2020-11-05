@@ -1,12 +1,15 @@
 <div>
     <h3>Заказы</h3>
-    <table class="table table-hover" cellpadding="0" cellspacing="0">
+    <table class="table table-hover table-borderless table-striped">
+        <thead class="thead-dark">
         <tr>
-            <td>ID</td>
-            <td>Имя</td>
-            <td>Адрес</td>
-            <td>Телефон</td>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Адрес</th>
+            <th>Телефон</th>
+            <th>Стоимость</th>
         </tr>
+        </thead>
         <tbody>
 
         <tr ng-repeat="o in orderList">
@@ -14,6 +17,7 @@
             <td>{{o.receiverName}}</td>
             <td>{{o.address}}</td>
             <td>{{o.phone}}</td>
+            <td>{{o.price}}</td>
         </tr>
         </tbody>
     </table>
