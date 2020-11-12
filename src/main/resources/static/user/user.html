@@ -1,0 +1,30 @@
+<div>
+    <h3>Профиль</h3>
+    <table class="table table-hover table-borderless table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Телефон</th>
+            <th>E-mail</th>
+            <th>Год</th>
+            <th>Пол</th>
+            <th>Город</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="p in profile">
+            <td>{{p.id}}</td>
+            <td>{{p.firstName}}</td>
+            <td>{{p.surname}}</td>
+            <td>{{p.phone}}</td>
+            <td>{{p.email}}</td>
+            <td>{{p.birth_year}}</td>
+            <td>{{p.gender}}</td>
+            <td>{{p.city}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

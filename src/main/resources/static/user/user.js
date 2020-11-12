@@ -1,13 +1,13 @@
-angular.module('app').controller('orderController', function ($scope, $http) {
+angular.module('app').controller('userController', function ($scope, $http) {
     const contextPath = 'http://localhost:8189/market';
     var currentPage = 1;
 
     $scope.fillTable = function () {
         $http({
-            url: contextPath + '/api/v1/orders',
+            url: contextPath + '/api/v1/user',
             method: 'GET'
         }).then(function (response) {
-            $scope.orderList = response.data;
+            $scope.profile = response.data;
         });
     };
 
