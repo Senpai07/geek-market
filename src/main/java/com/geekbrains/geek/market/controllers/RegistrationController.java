@@ -1,8 +1,8 @@
 package com.geekbrains.geek.market.controllers;
 
+import com.geekbrains.geek.market.entities.Profile;
 import com.geekbrains.geek.market.entities.Role;
 import com.geekbrains.geek.market.entities.User;
-import com.geekbrains.geek.market.entities.UserProfile;
 import com.geekbrains.geek.market.exceptions.ResourceNotFoundException;
 import com.geekbrains.geek.market.services.ProfileService;
 import com.geekbrains.geek.market.services.RoleService;
@@ -41,8 +41,6 @@ public class RegistrationController {
         user.setPassword(passwordEncoder.encode(password));
         user.setRoles(list);
         userService.saveUser(user);
-        UserProfile userProfile = new UserProfile(user.getId(), firstname, surname, phone, email, birth_year, gender, city);
-        profileService.saveProfile(userProfile);
     }
 }
 
