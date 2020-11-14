@@ -128,6 +128,7 @@
                 <configuration>
                     <sources>
                         <source>${project.basedir}/src/main/resources/orders.xsd</source>
+                        <source>${project.basedir}/src/main/resources/products.xsd</source>
                     </sources>
                 </configuration>
             </plugin>
