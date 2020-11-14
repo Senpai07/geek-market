@@ -24,7 +24,7 @@
     <a class="btn btn-outline-warning" href="#!/admin">Админка</a>
     <a class="btn btn-outline-warning" href="#!/orders">Заказы</a>
     <a class="btn btn-outline-warning" href="#!/cart">Корзина</a>
-    <a class="btn btn-outline-warning" href="#!/profile">Профиль</a>
+    <a class="btn btn-outline-warning" href="#!profile">Профиль</a>
 
     <ng-view></ng-view>
 
