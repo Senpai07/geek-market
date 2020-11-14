@@ -34,9 +34,6 @@
             .when('/profile', {
                 templateUrl: 'profile/profile.html',
                 controller: 'profileController'
-            })
-            .otherwise({
-                redirectTo: '/'
             });
 
         $httpProvider.interceptors.push(function ($q, $location) {

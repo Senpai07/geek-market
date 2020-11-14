@@ -1,10 +1,15 @@
 package com.geekbrains.geek.market.services;
 
-import com.geekbrains.geek.market.entities.UserProfile;
+import com.geekbrains.geek.market.entities.Category;
+import com.geekbrains.geek.market.entities.Profile;
+import com.geekbrains.geek.market.exceptions.ResourceNotFoundException;
+import com.geekbrains.geek.market.repositories.CategoryRepository;
+import com.geekbrains.geek.market.repositories.ProductRepository;
 import com.geekbrains.geek.market.repositories.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -12,11 +17,15 @@ import java.util.Optional;
 public class ProfileService {
     private final ProfileRepository profileRepository;
 
-    public Optional<UserProfile> findById(Long id) {
+    public Optional<Profile> findById(Long id) {
         return profileRepository.findById(id);
     }
 
-    public void saveProfile(UserProfile userProfile) {
-        profileRepository.save(userProfile);
+    public Optional<Profile> findByUsername(String username) {
+        return profileRepository.findByUsername(username);
+    }
+
+    public Profile saveOrUpdate(Profile profile) {
+        return profileRepository.save(profile);
     }
 }

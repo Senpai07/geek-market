@@ -1,9 +1,9 @@
-create table users
-(
-    id       bigserial,
-    username varchar(30) not null,
-    password varchar(80) not null,
-    primary key (id)
+create table users (
+  id                    bigserial,
+  username              varchar(30) not null,
+  password              varchar(80) not null,
+  email                 varchar(50) unique,
+  primary key (id)
 );
 
 create table roles
@@ -13,29 +13,20 @@ create table roles
     primary key (id)
 );
 
-CREATE TABLE users_roles
-(
-    id      bigserial primary key,
-    user_id bigint not null,
-    role_id int    not null,
-    unique (user_id, role_id),
-    foreign key (user_id) references users (id),
-    foreign key (role_id) references roles (id)
+create table users_roles (
+  user_id               bigint not null,
+  role_id               int not null,
+  primary key (user_id, role_id),
+  foreign key (user_id) references users (id),
+  foreign key (role_id) references roles (id)
 );
 
-create table profiles
-(
-    id         bigint      not null,
-    firstname  varchar(30) not null,
-    surname    varchar(50) not null,
-    phone      varchar(50) not null,
-    email      varchar(50) unique,
-    birth_year numeric(4),
-    gender     varchar(1),
-    city       varchar(50),
-    primary key (id),
-    foreign key (id) references users (id)
+create table profiles (
+  id                    bigserial primary key,
+  user_id               bigint references users(id),
+  hobbies               varchar(255)
 );
+
 
 insert into roles (name)
 values ('ROLE_USER'),
@@ -49,15 +40,9 @@ insert into users_roles (user_id, role_id)
 values (1, 1),
        (1, 2);
 
-insert into profiles (id,
-                      firstname,
-                      surname,
-                      phone,
-                      email,
-                      birth_year,
-                      gender,
-                      city)
-values (1, 'Bob', 'Johnson', '34574563432', 'bob@gmail.com', 1991, 'm', 'Chicago');
+insert into profiles (user_id, hobbies)
+values
+(1, 'Programming');
 
 create table categories
 (
