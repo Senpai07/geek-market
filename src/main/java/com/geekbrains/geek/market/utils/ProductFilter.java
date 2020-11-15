@@ -1,6 +1,6 @@
 package com.geekbrains.geek.market.utils;
 
-import com.geekbrains.geek.market.entities.Product;
+import com.geekbrains.geek.market.entities.ProductEntity;
 import com.geekbrains.geek.market.repositories.specifications.ProductSpecifications;
 import lombok.Data;
 import org.springframework.data.jpa.domain.Specification;
@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Data
 public class ProductFilter {
-    private Specification<Product> spec;
+    private Specification<ProductEntity> spec;
     private String filterDefinition;
 
     public ProductFilter(Map<String, String> params) {

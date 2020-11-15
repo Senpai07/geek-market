@@ -1,7 +1,7 @@
 package com.geekbrains.geek.market.services;
 
 import com.geekbrains.geek.market.dto.OrderDto;
-import com.geekbrains.geek.market.entities.Order;
+import com.geekbrains.geek.market.entities.OrderEntity;
 import com.geekbrains.geek.market.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderRepository orderRepository;
 
-    public List<Order> findAll(Specification<Order> spec) {
+    public List<OrderEntity> findAll(Specification<OrderEntity> spec) {
         return orderRepository.findAll(spec);
     }
 
@@ -24,7 +24,7 @@ public class OrderService {
     }
 
 
-    public Order save(Order order) {
+    public OrderEntity save(OrderEntity order) {
         return orderRepository.save(order);
     }
 

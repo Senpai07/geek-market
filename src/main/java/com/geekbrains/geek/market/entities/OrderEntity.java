@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name = "orders")
 @Data
 @NoArgsConstructor
-public class Order {
+public class OrderEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +40,7 @@ public class Order {
     @Column(name = "receiver_name")
     private String receiverName;
 
-    public Order(User user, Cart cart, String address, String phone, String receiverName) {
+    public OrderEntity(User user, Cart cart, String address, String phone, String receiverName) {
         this.user = user;
         this.price = cart.getPrice();
         this.address = address;

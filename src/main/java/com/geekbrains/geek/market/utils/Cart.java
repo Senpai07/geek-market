@@ -1,7 +1,7 @@
 package com.geekbrains.geek.market.utils;
 
 import com.geekbrains.geek.market.entities.OrderItem;
-import com.geekbrains.geek.market.entities.Product;
+import com.geekbrains.geek.market.entities.ProductEntity;
 import com.geekbrains.geek.market.exceptions.ResourceNotFoundException;
 import com.geekbrains.geek.market.services.ProductService;
 import lombok.Data;
@@ -30,15 +30,15 @@ public class Cart {
 
     public void addOrIncrement(Long productId) {
         for (OrderItem o : items) {
-            if (o.getProduct().getId().equals(productId)) {
+            if (o.getProductEntity().getId().equals(productId)) {
                 o.incrementQuantity();
                 recalculate();
                 return;
             }
         }
-        Product product = productService.findById(productId).orElseThrow(() ->
-                new ResourceNotFoundException("Product with id=" + productId + " doesn't exists (cart)"));
-        items.add(new OrderItem(product));
+        ProductEntity productEntity = productService.findById(productId).orElseThrow(() ->
+                new ResourceNotFoundException("ProductEntity with id=" + productId + " doesn't exists (cart)"));
+        items.add(new OrderItem(productEntity));
         recalculate();
     }
 
@@ -46,7 +46,7 @@ public class Cart {
         Iterator<OrderItem> iter = items.iterator();
         while (iter.hasNext()) {
             OrderItem o = iter.next();
-            if (o.getProduct().getId().equals(productId)) {
+            if (o.getProductEntity().getId().equals(productId)) {
                 o.decrementQuantity();
                 if (o.getQuantity() == 0) {
                     iter.remove();
@@ -61,7 +61,7 @@ public class Cart {
         Iterator<OrderItem> iter = items.iterator();
         while (iter.hasNext()) {
             OrderItem o = iter.next();
-            if (o.getProduct().getId().equals(productId)) {
+            if (o.getProductEntity().getId().equals(productId)) {
                 iter.remove();
                 recalculate();
                 return;
@@ -72,8 +72,8 @@ public class Cart {
     public void recalculate() {
         price = 0;
         for (OrderItem o : items) {
-            o.setPricePerProduct(o.getProduct().getPrice());
-            o.setPrice(o.getProduct().getPrice() * o.getQuantity());
+            o.setPricePerProduct(o.getProductEntity().getPrice());
+            o.setPrice(o.getProductEntity().getPrice() * o.getQuantity());
             price += o.getPrice();
         }
     }

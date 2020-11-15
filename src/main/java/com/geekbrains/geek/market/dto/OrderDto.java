@@ -1,15 +1,9 @@
 package com.geekbrains.geek.market.dto;
 
-import com.geekbrains.geek.market.entities.Order;
-import com.geekbrains.geek.market.entities.OrderItem;
-import com.geekbrains.geek.market.entities.User;
-import com.geekbrains.geek.market.utils.Cart;
+import com.geekbrains.geek.market.entities.OrderEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 
-import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +17,7 @@ public class OrderDto {
     private String receiverName;
     List<OrderItemDto> items;
 
-    public OrderDto(Order o) {
+    public OrderDto(OrderEntity o) {
         this.id = o.getId();
         this.price = o.getPrice();
         this.address = o.getAddress();

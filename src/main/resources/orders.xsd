@@ -13,7 +13,7 @@
     <xs:element name="getOrdersResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="order" type="tns:order"/>
+                <xs:element name="orders" type="tns:order"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

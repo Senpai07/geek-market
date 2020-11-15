@@ -1,7 +1,7 @@
 package com.geekbrains.geek.market.controllers;
 
 import com.geekbrains.geek.market.dto.ProductDto;
-import com.geekbrains.geek.market.entities.Product;
+import com.geekbrains.geek.market.entities.ProductEntity;
 import com.geekbrains.geek.market.exceptions.ResourceNotFoundException;
 import com.geekbrains.geek.market.services.ProductService;
 import com.geekbrains.geek.market.utils.ProductFilter;
@@ -23,26 +23,26 @@ public class ProductController {
     public Page<ProductDto> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page, @RequestParam Map<String, String> params) {
         ProductFilter productFilter = new ProductFilter(params);
         if (page < 1) page = 1;
-        Page<Product> productsPage = productService.findAll(productFilter.getSpec(), page - 1, 5);
+        Page<ProductEntity> productsPage = productService.findAll(productFilter.getSpec(), page - 1, 5);
         return new PageImpl<>(productsPage.getContent().stream().map(ProductDto::new)
                 .collect(Collectors.toList()), productsPage.getPageable(), productsPage.getTotalElements());
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public Product getProductById(@PathVariable Long id) {
+    public ProductEntity getProductById(@PathVariable Long id) {
         return productService.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("Product with id=" + id + " doesn't exists"));
+                new ResourceNotFoundException("ProductEntity with id=" + id + " doesn't exists"));
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public Product createProduct(@RequestBody Product product) {
-        product.setId(null);
-        return productService.SaveOrUpdate(product);
+    public ProductEntity createProduct(@RequestBody ProductEntity productEntity) {
+        productEntity.setId(null);
+        return productService.SaveOrUpdate(productEntity);
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json")
-    public Product updateProduct(@RequestBody Product product) {
-        return productService.SaveOrUpdate(product);
+    public ProductEntity updateProduct(@RequestBody ProductEntity productEntity) {
+        return productService.SaveOrUpdate(productEntity);
     }
 
     @DeleteMapping
