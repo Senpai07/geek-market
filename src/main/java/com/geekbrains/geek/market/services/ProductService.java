@@ -1,6 +1,7 @@
 package com.geekbrains.geek.market.services;
 
-import com.geekbrains.geek.market.entities.Product;
+import com.geekbrains.geek.market.dto.products.Product;
+import com.geekbrains.geek.market.entities.ProductEntity;
 import com.geekbrains.geek.market.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -8,27 +9,30 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public Page<Product> findAll(Specification<Product> spec, int page, int size) {
+    public Page<ProductEntity> findAll(Specification<ProductEntity> spec, int page, int size) {
         return productRepository.findAll(spec, PageRequest.of(page, size));
     }
 
-    public Optional<Product> findById(Long id) {
+    public Optional<ProductEntity> findById(Long id) {
         return productRepository.findById(id);
     }
 
-    public void saveProduct(Product product) {
-        productRepository.save(product);
+    public void saveProduct(ProductEntity productEntity) {
+        productRepository.save(productEntity);
     }
 
-    public Product SaveOrUpdate(Product product) {
-        return productRepository.save(product);
+    public ProductEntity SaveOrUpdate(ProductEntity productEntity) {
+        return productRepository.save(productEntity);
     }
 
     public void deleteAll() {
@@ -38,4 +42,17 @@ public class ProductService {
     public void deleteById(Long id) {
         productRepository.deleteById(id);
     }
+
+    private static final Function<ProductEntity, Product> functionEntityToSoap = se -> {
+        Product s = new Product();
+        s.setId(se.getId());
+        s.setTitle(se.getTitle());
+        s.setPrice(se.getPrice());
+        return s;
+    };
+
+    public List<Product> getAllProducts() {
+        return productRepository.findAll().stream().map(functionEntityToSoap).collect(Collectors.toList());
+    }
+
 }

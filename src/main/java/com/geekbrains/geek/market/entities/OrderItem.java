@@ -17,11 +17,11 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private Product product;
+    private ProductEntity productEntity;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private OrderEntity order;
 
     @Column(name = "quantity")
     private int quantity;
@@ -32,11 +32,11 @@ public class OrderItem {
     @Column(name = "price")
     private int price;
 
-    public OrderItem(Product product) {
-        this.product = product;
+    public OrderItem(ProductEntity productEntity) {
+        this.productEntity = productEntity;
         this.quantity = 1;
-        this.price = product.getPrice();
-        this.pricePerProduct = product.getPrice();
+        this.price = productEntity.getPrice();
+        this.pricePerProduct = productEntity.getPrice();
     }
 
     public void incrementQuantity() {
