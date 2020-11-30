@@ -31,7 +31,7 @@ public class CategoryRepositoryTest {
         List<Category> categoriesList = categoryRepository.findAll();
 
         Assertions.assertEquals(3, categoriesList.size());
-        Assertions.assertEquals("Молочка ", categoriesList.get(1).getTitle());
+        Assertions.assertEquals("Молочка", categoriesList.get(1).getTitle());
     }
 
     @Test
