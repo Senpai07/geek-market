@@ -1,14 +1,15 @@
 package com.geekbrains.geek.market;
 
+import com.geekbrains.geek.market.controllers.ProductController;
 import com.geekbrains.geek.market.entities.Category;
-import com.geekbrains.geek.market.services.CategoryService;
+import com.geekbrains.geek.market.entities.ProductEntity;
+import com.geekbrains.geek.market.services.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -24,28 +25,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CategoryControllerTest {
+public class ProductControllerTest {
     @Autowired
     private MockMvc mvc;
 
     @MockBean
-    private CategoryService categoryService;
+    private ProductController productController;
 
     @Test
-    public void getAllCategoryTest() throws Exception {
-        Category fruit = new Category();
-        fruit.setId(1L);
-        fruit.setTitle("Фрукты");
+    public void getAllProductTest() throws Exception {
+        ProductEntity meat = new ProductEntity();
+        meat.setId(1L);
+        meat.setTitle("Мясо");
+        meat.setPrice(200);
 
-        List<Category> allCategories = new ArrayList<>(Arrays.asList(fruit));
+        List<ProductEntity> allProductEntity = new ArrayList<>(Arrays.asList(meat));
 
-        given(categoryService.findAll()).willReturn(allCategories);
+        given(productController.getProductById(1l)).willReturn(meat);
 
-        mvc.perform(get("/api/v1/categories")
+        mvc.perform(get("/api/v1/products/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].title", is(allCategories.get(0).getTitle())));
+                .andExpect(jsonPath("$").isMap())
+                .andExpect(jsonPath("$.title", is(allProductEntity.get(0).getTitle())));
     }
 }
