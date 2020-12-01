@@ -10,12 +10,12 @@ import java.util.List;
 public class PageDto<T> {
     private long total;
     private List<T> content;
-    private long size;
+    private int size;
 
-    public PageDto(List<T> content, long size) {
+    public PageDto(List<T> content, long total, int pageSize) {
         this.content = content;
-        this.total = size;
-        this.size = content.size();
+        this.total = total;
+        this.size = pageSize;
     }
 
     public int getTotalPages() {

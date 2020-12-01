@@ -28,7 +28,7 @@ public class ProductController {
 //        return new PageImpl<>(productsPage.getContent().stream().map(ProductDto::new)
 //                .collect(Collectors.toList()), productsPage.getPageable(), productsPage.getTotalElements());
         return new PageDto(productsPage.getContent().stream().map(ProductDto::new).collect(Collectors.toList()),
-                productsPage.getTotalElements());
+                productsPage.getTotalElements(), productsPage.getSize());
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
