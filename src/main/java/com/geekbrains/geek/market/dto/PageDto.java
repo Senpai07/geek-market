@@ -14,8 +14,8 @@ public class PageDto<T> {
 
     public PageDto(List<T> content, long size) {
         this.content = content;
-        this.total = content.size();
-        this.size = size;
+        this.total = size;
+        this.size = content.size();
     }
 
     public int getTotalPages() {
