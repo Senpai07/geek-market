@@ -1,6 +1,6 @@
 angular.module('app').controller('storeController', function ($scope, $http) {
     const contextPath = 'http://localhost:8189/market';
-    var currentPage = 1;
+    let currentPage = 1;
 
     $scope.fillTable = function (pageIndex = 1) {
         $http({
