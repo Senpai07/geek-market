@@ -41,7 +41,7 @@ public class ProductControllerTest {
 
         List<ProductEntity> allProductEntity = new ArrayList<>(Arrays.asList(meat));
 
-        given(productController.getProductById(1l)).willReturn(meat);
+        given(productController.getProductById(1L)).willReturn(meat);
 
         mvc.perform(get("/api/v1/products/1")
                 .contentType(MediaType.APPLICATION_JSON))
