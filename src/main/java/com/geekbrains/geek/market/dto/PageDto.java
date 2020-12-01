@@ -3,16 +3,16 @@ package com.geekbrains.geek.market.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 public class PageDto<T> {
     private long total;
-    private ArrayList<T> content;
-    private int size;
+    private List<T> content;
+    private long size;
 
-    public PageDto(ArrayList<T> content, int size) {
+    public PageDto(List<T> content, long size) {
         this.content = content;
         this.total = content.size();
         this.size = size;
