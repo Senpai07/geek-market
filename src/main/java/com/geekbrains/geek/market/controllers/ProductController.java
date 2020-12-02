@@ -20,16 +20,20 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping(produces = "application/json")
-//    public Page<ProductDto> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page, @RequestParam Map<String, String> params) {
     public PageDto getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page, @RequestParam Map<String, String> params) {
         ProductFilter productFilter = new ProductFilter(params);
         if (page < 1) page = 1;
-        Page<ProductEntity> productsPage = productService.findAll(productFilter.getSpec(), page - 1, 5);
+        return productService.findAll(productFilter.getSpec(), page - 1, 5);
+    }
+
+//    @GetMapping(produces = "application/json")
+//    public Page<ProductDto> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page, @RequestParam Map<String, String> params) {
+//        ProductFilter productFilter = new ProductFilter(params);
+//        if (page < 1) page = 1;
+//        Page<ProductEntity> productsPage = productService.findAll(productFilter.getSpec(), page - 1, 5);
 //        return new PageImpl<>(productsPage.getContent().stream().map(ProductDto::new)
 //                .collect(Collectors.toList()), productsPage.getPageable(), productsPage.getTotalElements());
-        return new PageDto(productsPage.getContent().stream().map(ProductDto::new).collect(Collectors.toList()),
-                productsPage.getTotalElements(), productsPage.getSize());
-    }
+//    }
 
     @GetMapping(value = "/{id}", produces = "application/json")
     public ProductEntity getProductById(@PathVariable Long id) {
