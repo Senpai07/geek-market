@@ -1,6 +1,6 @@
 angular.module('app').controller('storeController', function ($scope, $http) {
     const contextPath = 'http://localhost:8189/market';
-    var currentPage = 1;
+    let currentPage = 1;
 
     $scope.fillTable = function (pageIndex = 1) {
         $http({
@@ -14,6 +14,7 @@ angular.module('app').controller('storeController', function ($scope, $http) {
                 p: pageIndex
             }
         }).then(function (response) {
+            console.log(response.data);
             $scope.ProductsPage = response.data;
             $scope.PaginationArray = $scope.generatePagesList(1, $scope.ProductsPage.totalPages);
         });

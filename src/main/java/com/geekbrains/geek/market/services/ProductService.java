@@ -1,5 +1,7 @@
 package com.geekbrains.geek.market.services;
 
+import com.geekbrains.geek.market.dto.PageDto;
+import com.geekbrains.geek.market.dto.ProductDto;
 import com.geekbrains.geek.market.dto.products.Product;
 import com.geekbrains.geek.market.entities.ProductEntity;
 import com.geekbrains.geek.market.repositories.ProductRepository;
@@ -19,8 +21,13 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public Page<ProductEntity> findAll(Specification<ProductEntity> spec, int page, int size) {
-        return productRepository.findAll(spec, PageRequest.of(page, size));
+//    public Page<ProductEntity> findAll(Specification<ProductEntity> spec, int page, int size) {
+//        return productRepository.findAll(spec, PageRequest.of(page, size));
+//    }
+    public PageDto<ProductEntity> findAll(Specification<ProductEntity> spec, int page, int size) {
+        Page<ProductEntity> productEntityPage = productRepository.findAll(spec, PageRequest.of(page, size));
+        return new PageDto(productEntityPage.getContent().stream().map(ProductDto::new).collect(Collectors.toList()),
+                productEntityPage.getTotalElements(), productEntityPage.getSize());
     }
 
     public Optional<ProductEntity> findById(Long id) {

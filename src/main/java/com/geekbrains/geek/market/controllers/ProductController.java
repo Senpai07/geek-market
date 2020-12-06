@@ -1,5 +1,6 @@
 package com.geekbrains.geek.market.controllers;
 
+import com.geekbrains.geek.market.dto.PageDto;
 import com.geekbrains.geek.market.dto.ProductDto;
 import com.geekbrains.geek.market.entities.ProductEntity;
 import com.geekbrains.geek.market.exceptions.ResourceNotFoundException;
@@ -7,7 +8,6 @@ import com.geekbrains.geek.market.services.ProductService;
 import com.geekbrains.geek.market.utils.ProductFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -20,13 +20,20 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping(produces = "application/json")
-    public Page<ProductDto> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page, @RequestParam Map<String, String> params) {
+    public PageDto getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page, @RequestParam Map<String, String> params) {
         ProductFilter productFilter = new ProductFilter(params);
         if (page < 1) page = 1;
-        Page<ProductEntity> productsPage = productService.findAll(productFilter.getSpec(), page - 1, 5);
-        return new PageImpl<>(productsPage.getContent().stream().map(ProductDto::new)
-                .collect(Collectors.toList()), productsPage.getPageable(), productsPage.getTotalElements());
+        return productService.findAll(productFilter.getSpec(), page - 1, 5);
     }
+
+//    @GetMapping(produces = "application/json")
+//    public Page<ProductDto> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page, @RequestParam Map<String, String> params) {
+//        ProductFilter productFilter = new ProductFilter(params);
+//        if (page < 1) page = 1;
+//        Page<ProductEntity> productsPage = productService.findAll(productFilter.getSpec(), page - 1, 5);
+//        return new PageImpl<>(productsPage.getContent().stream().map(ProductDto::new)
+//                .collect(Collectors.toList()), productsPage.getPageable(), productsPage.getTotalElements());
+//    }
 
     @GetMapping(value = "/{id}", produces = "application/json")
     public ProductEntity getProductById(@PathVariable Long id) {
